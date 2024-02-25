@@ -1,11 +1,10 @@
-
 use std::fmt::{Display, Formatter};
 
 #[derive(Debug)]
 pub struct AluOutput {
-    out: i16,
-    zr: bool,
-    ng: bool,
+    pub out: i16,
+    pub zr: bool,
+    pub ng: bool,
 }
 
 impl Display for AluOutput {
