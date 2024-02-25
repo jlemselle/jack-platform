@@ -1,20 +1,12 @@
-use std::fmt::{Display, Formatter};
+/**
+ * ALU (Arithmetic Logic Unit) module
+ * This module contains the implementation of the ALU, which is responsible for performing arithmetic and logic operations.
+ */
 
-#[derive(Debug)]
 pub struct AluOutput {
     pub out: i16,
     pub zr: bool,
     pub ng: bool,
-}
-
-impl Display for AluOutput {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "Output: {}, Zero Flag: {}, Negative Flag: {}",
-            self.out, self.zr, self.ng
-        )
-    }
 }
 
 pub fn alu(x: i16, y: i16, zx: bool, nx: bool, zy: bool, ny: bool, f: bool, no: bool) -> AluOutput {

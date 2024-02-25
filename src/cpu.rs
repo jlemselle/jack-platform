@@ -1,4 +1,8 @@
-use crate::alu::alu;
+/**
+ * CPU module
+ * This module contains the implementation of the CPU, which is responsible for executing instructions.
+ */
+use crate::{alu::alu, utils::is_op_immediate};
 
 pub struct InstructionResult {
     pub out: i16,
@@ -8,11 +12,10 @@ pub struct InstructionResult {
     pub write_pc: bool,
 }
 
-pub fn cpu(op: i16, a: i16, d: i16, m: i16) -> InstructionResult {
-    let is_immediate = op & (1 << 15) == 0;
-    if is_immediate {
+pub fn cpu(op: u16, a: i16, d: i16, m: i16) -> InstructionResult {
+    if is_op_immediate(op) {
         return InstructionResult {
-            out: op,
+            out: op as i16,
             write_a: true,
             write_m: false,
             write_d: false,
