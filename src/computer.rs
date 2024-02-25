@@ -1,6 +1,6 @@
 use crate::cpu::cpu;
 
-pub fn compute() {
+pub fn compute(instructions: Vec<i16>) {
     // instantiate registers
     let mut a = 0;
     let mut d = 0;
@@ -10,20 +10,6 @@ pub fn compute() {
 
     // instantiate program counter
     let mut pc = 0;
-
-    // instantiate instructions
-    let instructions = vec![
-        0b1111_1111_1111_1000u16 as i16, // -1
-        0b1111_1111_1111_1000u16 as i16, // -2
-        0b1111_1111_1111_1000u16 as i16, // -3
-        0b1111_1111_1111_1000u16 as i16, // -4
-        0b1111_1111_1111_1000u16 as i16, // -5
-        0b1111_1111_1111_1000u16 as i16, // -6
-        0b1111_1111_1111_1000u16 as i16, // -7
-        0b1111_1111_1111_1000u16 as i16, // -8
-        0b1111_1111_1111_0000u16 as i16, // -9
-        0b1111_1111_1111_0000u16 as i16, // -10
-    ];
 
     // while pc is in range of instructions
     while (pc as usize) < instructions.len() {
