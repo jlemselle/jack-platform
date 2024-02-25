@@ -1,21 +1,15 @@
 use core::panic;
 
-use crate::utils::is_op_immediate;
+use crate::common::*;
 
-pub struct AssembledInstruction {
-    pub op: u16,
-    pub instruction: String,
-    pub source: String,
-}
-
-pub fn assemble(instructions: Vec<&str>) -> Vec<AssembledInstruction> {
+pub fn assemble(instructions: Vec<&str>) -> Vec<Instruction> {
     instructions
         .iter()
         .filter_map(|line| assemble_line(line))
         .collect()
 }
 
-pub fn assemble_line(line: &str) -> Option<AssembledInstruction> {
+fn assemble_line(line: &str) -> Option<Instruction> {
     let trimmed = trim_comment(line).trim();
     if trimmed.is_empty() {
         return None;
@@ -23,14 +17,13 @@ pub fn assemble_line(line: &str) -> Option<AssembledInstruction> {
     if trimmed.starts_with('(') {
         return None;
     }
-    Some(AssembledInstruction {
+    Some(Instruction {
         op: assemble_instruction(trimmed),
-        instruction: trimmed.to_string(),
-        source: line.to_string(),
+        source: trimmed.to_string(),
     })
 }
 
-pub fn assemble_instruction(instruction: &str) -> u16 {
+fn assemble_instruction(instruction: &str) -> u16 {
     if instruction.starts_with('@') {
         assemble_immediate(instruction)
     } else {
