@@ -1,3 +1,5 @@
+use colored::*;
+
 use crate::{
     assemble::AssembledInstruction,
     cpu::{cpu, InstructionResult},
@@ -23,34 +25,37 @@ pub fn compute(runtime: &mut Runtime, instruction: &AssembledInstruction, loggin
 
 fn log_result(instruction: &AssembledInstruction, runtime: &Runtime, result: &InstructionResult) {
     println!(
-        "{}: {} ({:016b}) [A: {}, D: {}, M[{}]: {}]",
-        runtime.pc,
-        instruction.source,
-        instruction.op,
-        runtime.a,
-        runtime.d,
-        runtime.a,
-        runtime.memory[runtime.a as usize]
+        "{} {} {}",
+        format!("{}:", runtime.pc).white(),
+        format!("{}", instruction.source).blue(),
+        format!("({:016b})", instruction.op).dimmed(),
     );
 
-    if result.write_a {
-        println!("   A: {} -> {}", runtime.a, result.out);
-    }
+    let a = if result.write_a {
+        format!("*A: {}*", result.out).green()
+    } else {
+        format!("A: {}", runtime.a).black()
+    };
 
-    if result.write_d {
-        println!("   D: {} -> {}", runtime.d, result.out);
-    }
+    let d = if result.write_d {
+        format!("*D: {}*", result.out).green()
+    } else {
+        format!("D: {}", runtime.d).black()
+    };
 
-    if result.write_m {
-        println!(
-            "   M[{}]: {} -> {}",
-            runtime.a, runtime.memory[runtime.a as usize], result.out
-        );
-    }
+    let m = if result.write_m {
+        format!("*M[{}]: {}*", runtime.a, result.out).green()
+    } else {
+        format!("M[{}]: {}", runtime.a, runtime.memory[runtime.a as usize]).black()
+    };
 
-    if result.write_pc {
-        println!("   PC: {}", result.out);
-    }
+    let pc = if result.write_pc {
+        format!("*PC: {}*", result.out).green()
+    } else {
+        format!("PC: {}", runtime.pc).black()
+    };
+
+    println!("{}", format!("   [{}, {}, {}, {}]", a, d, m, pc).black());
 }
 
 fn apply_result(runtime: &mut Runtime, result: &InstructionResult) {
