@@ -15,7 +15,7 @@ pub fn compute(
         instruction.op,
         runtime.a,
         runtime.d,
-        runtime.memory[runtime.a as usize],
+        runtime.memory[runtime.a as u16 as usize],
     );
 
     if config.log {

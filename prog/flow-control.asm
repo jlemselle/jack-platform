@@ -1,0 +1,8 @@
+@10
+D=A
+(LOOP)
+D=D-1
+@LOOP
+D;JGT
+@0
+M=D

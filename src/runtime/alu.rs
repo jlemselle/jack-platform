@@ -77,6 +77,12 @@ pub fn alu(op: u16, a: i16, d: i16, m: i16) -> AluResult {
 }
 
 pub fn apply_result(runtime: &mut ExecutionContext, result: &AluResult) {
+    if result.write_pc {
+        runtime.pc = runtime.a as usize;
+    } else {
+        runtime.pc += 1;
+    }
+
     if result.write_a {
         runtime.a = result.out;
     }
@@ -86,12 +92,8 @@ pub fn apply_result(runtime: &mut ExecutionContext, result: &AluResult) {
     }
 
     if result.write_m {
-        runtime.memory[runtime.a as usize] = result.out;
+        runtime.memory[runtime.a as u16 as usize] = result.out;
     }
 
-    if result.write_pc {
-        runtime.pc = result.out as usize;
-    } else {
-        runtime.pc += 1;
-    }
+    runtime.cycle += 1;
 }
