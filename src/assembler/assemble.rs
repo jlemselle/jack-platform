@@ -19,6 +19,24 @@ fn collect_labels(instructions: &Vec<&str>) -> HashMap<String, u16> {
     symbol_table.insert("ARG".to_string(), 2);
     symbol_table.insert("THIS".to_string(), 3);
     symbol_table.insert("THAT".to_string(), 4);
+    symbol_table.insert("R0".to_string(), 0);
+    symbol_table.insert("R1".to_string(), 1);
+    symbol_table.insert("R2".to_string(), 2);
+    symbol_table.insert("R3".to_string(), 3);
+    symbol_table.insert("R4".to_string(), 4);
+    symbol_table.insert("R5".to_string(), 5);
+    symbol_table.insert("R6".to_string(), 6);
+    symbol_table.insert("R7".to_string(), 7);
+    symbol_table.insert("R8".to_string(), 8);
+    symbol_table.insert("R9".to_string(), 9);
+    symbol_table.insert("R10".to_string(), 10);
+    symbol_table.insert("R11".to_string(), 11);
+    symbol_table.insert("R12".to_string(), 12);
+    symbol_table.insert("R13".to_string(), 13);
+    symbol_table.insert("R14".to_string(), 14);
+    symbol_table.insert("R15".to_string(), 15);
+    symbol_table.insert("SCREEN".to_string(), 16384);
+    symbol_table.insert("KBD".to_string(), 24576);
     let mut address = 0;
     for line in instructions {
         let trimmed = trim_comment(line).trim();
@@ -53,6 +71,9 @@ fn collect_labels(instructions: &Vec<&str>) -> HashMap<String, u16> {
             // if label starts with a letter
             if label.chars().next().unwrap().is_alphabetic() {
                 if !symbol_table.contains_key(label) {
+                    if next_ram > 255 {
+                        panic!("RAM address overflow");
+                    }
                     symbol_table.insert(label.to_string(), next_ram);
                     next_ram += 1;
                 }
@@ -84,7 +105,8 @@ fn assemble_line(
     }
     Some(Instruction {
         op: assemble_instruction(trimmed, labels),
-        source: trimmed.to_string(),
+        str: trimmed.to_string(),
+        source: source.to_string(),
         file: file.to_string(),
         line: line,
     })
@@ -172,13 +194,13 @@ fn jump(value: &str) -> u16 {
 
 fn comp(value: &str) -> u16 {
     match value {
-        "0" => 0b0000_1010_1000_0000,
+        "0" => 0b0000_1010_0000_0000,
         "1" => 0b0000_1111_1100_0000,
         "-1" => 0b0000_1110_1000_0000,
         "D" => 0b0000_0011_0000_0000,
         "A" => 0b0000_1100_0000_0000,
         "M" => 0b0001_1100_0000_0000,
-        "!D" => 0b0000_0011_0100_0000,
+        "!D" => 0b0000_0111_0000_0000,
         "!A" => 0b0000_1100_0100_0000,
         "!M" => 0b0001_1100_0100_0000,
         "-D" => 0b0000_0011_1100_0000,
@@ -241,6 +263,14 @@ mod tests {
         assert_eq!(
             assemble_instruction("M=D", &HashMap::new()),
             0b1110_0011_0000_1000
+        );
+        assert_eq!(
+            assemble_instruction("M=!D", &HashMap::new()),
+            0b1110_0111_0000_1000
+        );
+        assert_eq!(
+            assemble_instruction("0;JMP", &HashMap::new()),
+            0b1110_1010_0000_0111
         );
     }
 

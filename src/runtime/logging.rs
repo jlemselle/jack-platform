@@ -8,7 +8,7 @@ pub fn log_result(instruction: &Instruction, runtime: &ExecutionContext, result:
     println!(
         "{} {} {}",
         format!("{}:", runtime.cycle).dimmed(),
-        format!("{}", instruction.source).blue(),
+        format!("{}", instruction.str).blue(),
         format!("({:016b})", instruction.op).dimmed(),
     );
 
@@ -47,32 +47,32 @@ pub fn log_result(instruction: &Instruction, runtime: &ExecutionContext, result:
         format!("{}:{}", instruction.file, instruction.line).dimmed()
     );
     // load instruction.file lines, and display them in the terminal, highlighting instruction.line
-    // let content = std::fs::read_to_string(&instruction.file).unwrap();
-    // let lines: Vec<&str> = content.lines().collect();
+    let content = std::fs::read_to_string(&instruction.file).unwrap();
+    let lines: Vec<&str> = content.lines().collect();
 
-    // // terminal height - 3
+    // terminal height - 3
 
-    // let size = if let Some((width, height)) = term_size::dimensions() {
-    //     height - 4
-    // } else {
-    //     5
-    // };
+    let size = if let Some((width, height)) = term_size::dimensions() {
+        height - 4
+    } else {
+        5
+    };
 
-    // let middle = size / 2;
-    // let start = if instruction.line < middle {
-    //     0
-    // } else if instruction.line > lines.len() - (middle + 1) {
-    //     lines.len() - size
-    // } else {
-    //     instruction.line as usize - middle
-    // };
+    let middle = size / 2;
+    let start = if instruction.line < middle {
+        0
+    } else if instruction.line > lines.len() - (middle + 1) {
+        lines.len() - size
+    } else {
+        instruction.line as usize - middle
+    };
 
-    // let lines: Vec<&str> = lines;
-    // for (i, line) in lines.iter().enumerate().skip(start).take(size) {
-    //     if i == instruction.line - 1 {
-    //         println!("{}", format!("{:4}> {}", i + 1, line).blue());
-    //     } else {
-    //         println!("{:4}: {}", i + 1, line);
-    //     }
-    // }
+    let lines: Vec<&str> = lines;
+    for (i, line) in lines.iter().enumerate().skip(start).take(size) {
+        if i == instruction.line - 1 {
+            println!("{}", format!("{:4}> {}", i + 1, line).blue());
+        } else {
+            println!("{:4}: {}", i + 1, line);
+        }
+    }
 }

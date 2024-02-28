@@ -25,7 +25,7 @@ fn main() {
     execute_to_end(
         instructions,
         ExecutionConfig {
-            log: true,
+            log: false,
             interactive: false,
         },
     );

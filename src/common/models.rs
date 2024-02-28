@@ -1,5 +1,6 @@
 pub struct Instruction {
     pub op: u16,
+    pub str: String,
     pub source: String,
     pub file: String,
     pub line: usize,

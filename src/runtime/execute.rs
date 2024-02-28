@@ -9,15 +9,15 @@ pub fn execute_to_end(instructions: Vec<Instruction>, config: ExecutionConfig) -
     while (context.pc as usize) < instructions.len() {
         let instruction = &instructions[context.pc as usize];
 
-        if instruction.source == "0;JMP" && context.a as usize == context.pc - 1 {
-            println!("Infinite loop detected, exiting");
+        if context.cycle > 2000000 {
+            panic!("Failed to finish in 2 million cycles, exiting");
+        }
+
+        if instruction.str == "0;JMP" && context.a as usize == context.pc - 1 {
             break;
         }
 
-        compute(&mut context, &instruction, &config);
-        if config.interactive {
-            std::io::stdin().read_line(&mut input).unwrap();
-        }
+        compute(&mut context, &instruction, &config, &mut input);
     }
     context
 }

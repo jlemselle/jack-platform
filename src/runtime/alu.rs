@@ -83,16 +83,16 @@ pub fn apply_result(runtime: &mut ExecutionContext, result: &AluResult) {
         runtime.pc += 1;
     }
 
-    if result.write_a {
-        runtime.a = result.out;
-    }
-
     if result.write_d {
         runtime.d = result.out;
     }
 
     if result.write_m {
         runtime.memory[runtime.a as u16 as usize] = result.out;
+    }
+
+    if result.write_a {
+        runtime.a = result.out;
     }
 
     runtime.cycle += 1;
