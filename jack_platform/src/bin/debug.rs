@@ -1,5 +1,8 @@
 use jack_platform::{
-    assemble_file, common::*, runtime::execute_to_end, services::logger::log_result,
+    assemble_file,
+    common::*,
+    runtime::execute_to_end,
+    services::{debugger::debug_result, logger::log_result},
 };
 
 fn main() {
@@ -9,7 +12,7 @@ fn main() {
     execute_to_end(
         instructions,
         ExecutionConfig {
-            services: vec![log_result],
+            services: vec![log_result, debug_result],
             ..ExecutionConfig::default()
         },
     );

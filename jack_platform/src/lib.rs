@@ -16,6 +16,7 @@ pub mod common {
 pub mod services {
     pub mod debugger;
     pub mod logger;
+    pub mod output;
 }
 
 use crate::{assembler::assemble, common::*};
