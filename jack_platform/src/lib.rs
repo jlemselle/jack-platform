@@ -1,35 +1,22 @@
-mod assembler {
+pub mod assembler {
     mod assemble;
     pub use assemble::assemble;
 }
-mod runtime {
+pub mod runtime {
     mod alu;
     mod compute;
     mod execute;
     mod logging;
     pub use execute::execute_to_end;
 }
-mod common {
+pub mod common {
     mod models;
     mod utils;
     pub use models::*;
     pub use utils::*;
 }
 
-use crate::{assembler::assemble, common::*, runtime::execute_to_end};
-
-fn main() {
-    let args: Vec<String> = std::env::args().collect();
-    let file = args.get(1).map_or("prog/simple.asm", |v| v.as_str());
-    let instructions = assemble_file(file);
-    execute_to_end(
-        instructions,
-        ExecutionConfig {
-            log: false,
-            interactive: false,
-        },
-    );
-}
+use crate::{assembler::assemble, common::*};
 
 pub fn assemble_file(file: &str) -> Vec<Instruction> {
     assemble(
@@ -46,6 +33,7 @@ mod tests {
 
     use super::*;
     use crate::assembler::assemble;
+    use crate::runtime::execute_to_end;
 
     #[test]
     fn test_simple_program() {

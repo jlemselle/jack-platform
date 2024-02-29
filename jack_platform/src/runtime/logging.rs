@@ -50,14 +50,7 @@ pub fn log_result(instruction: &Instruction, runtime: &ExecutionContext, result:
     let content = std::fs::read_to_string(&instruction.file).unwrap();
     let lines: Vec<&str> = content.lines().collect();
 
-    // terminal height - 3
-
-    let size = if let Some((width, height)) = term_size::dimensions() {
-        height - 4
-    } else {
-        5
-    };
-
+    let size = 5;
     let middle = size / 2;
     let start = if instruction.line < middle {
         0

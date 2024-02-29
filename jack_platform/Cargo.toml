@@ -1,0 +1,8 @@
+[package]
+name = "jack-platform"
+version = "0.1.0"
+edition = "2021"
+default-run = "execute"
+
+[dependencies]
+colored = "2.1.0"
