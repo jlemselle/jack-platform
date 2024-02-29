@@ -4,7 +4,6 @@ use colored::Colorize;
 pub fn debug_result(instruction: &Instruction, _runtime: &ExecutionContext, _result: &AluResult) {
     let mut input = String::new();
 
-    // load instruction.file lines, and display them in the terminal, highlighting instruction.line
     let content = std::fs::read_to_string(&instruction.file).unwrap();
     let lines: Vec<&str> = content.lines().collect();
 

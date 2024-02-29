@@ -14,7 +14,7 @@ pub struct ExecutionContext {
     pub cycle: usize,
 }
 
-pub const RAM_SIZE: usize = 65_536;
+pub const RAM_SIZE: usize = 32_768;
 
 impl ExecutionContext {
     pub fn new() -> Self {

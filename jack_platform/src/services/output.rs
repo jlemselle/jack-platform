@@ -1,6 +1,6 @@
 use crate::common::*;
 
-pub fn output_result(instruction: &Instruction, runtime: &ExecutionContext, result: &AluResult) {
+pub fn output_result(instruction: &Instruction, runtime: &ExecutionContext, _result: &AluResult) {
     if instruction
         .source
         .contains("end: function Output.printChar ")
