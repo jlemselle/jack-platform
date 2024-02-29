@@ -16,17 +16,34 @@ pub struct ExecutionContext {
 
 pub const RAM_SIZE: usize = 65_536;
 
-pub fn new_execution_context() -> ExecutionContext {
-    ExecutionContext {
-        a: 0,
-        d: 0,
-        memory: vec![0; RAM_SIZE],
-        pc: 0,
-        cycle: 0,
+impl ExecutionContext {
+    pub fn new() -> Self {
+        ExecutionContext {
+            a: 0,
+            d: 0,
+            memory: vec![0; RAM_SIZE],
+            pc: 0,
+            cycle: 0,
+        }
     }
 }
 
+pub struct AluResult {
+    pub out: i16,
+    pub write_a: bool,
+    pub write_m: bool,
+    pub write_d: bool,
+    pub write_pc: bool,
+}
+
+type ExecutionService = fn(&Instruction, &ExecutionContext, &AluResult) -> ();
+
 pub struct ExecutionConfig {
-    pub log: bool,
-    pub interactive: bool,
+    pub services: Vec<ExecutionService>,
+}
+
+impl ExecutionConfig {
+    pub fn default() -> Self {
+        ExecutionConfig { services: vec![] }
+    }
 }

@@ -5,7 +5,6 @@ pub mod assembler {
 pub mod runtime {
     mod alu;
     mod execute;
-    mod logging;
     pub use execute::execute_to_end;
 }
 pub mod common {
@@ -13,6 +12,10 @@ pub mod common {
     mod utils;
     pub use models::*;
     pub use utils::*;
+}
+pub mod services {
+    pub mod debugger;
+    pub mod logger;
 }
 
 use crate::{assembler::assemble, common::*};
@@ -41,13 +44,7 @@ mod tests {
             vec!["// 1 + 2 = 3", "@1", "D=A", "@2", "D=D+A", "@0", "M=D"],
         );
 
-        let runtime = execute_to_end(
-            instructions,
-            ExecutionConfig {
-                log: false,
-                interactive: false,
-            },
-        );
+        let runtime = execute_to_end(instructions, ExecutionConfig::default());
 
         assert_eq!(runtime.memory[0], 3);
     }
@@ -56,13 +53,7 @@ mod tests {
     fn test_labels() {
         let instructions = assemble("".to_string(), vec!["@END", "0;JMP", "@17", "(END)"]);
 
-        let runtime = execute_to_end(
-            instructions,
-            ExecutionConfig {
-                log: false,
-                interactive: false,
-            },
-        );
+        let runtime = execute_to_end(instructions, ExecutionConfig::default());
 
         assert_ne!(runtime.a, 17);
     }
@@ -101,13 +92,7 @@ mod tests {
     fn test_jump(instruction: &str, should_jump: bool) {
         let instructions = assemble("".to_string(), vec!["@17", instruction]);
 
-        let runtime = execute_to_end(
-            instructions,
-            ExecutionConfig {
-                log: false,
-                interactive: false,
-            },
-        );
+        let runtime = execute_to_end(instructions, ExecutionConfig::default());
 
         if should_jump {
             assert_eq!(runtime.pc, 17);

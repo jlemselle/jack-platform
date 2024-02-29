@@ -1,4 +1,6 @@
-use jack_platform::{assemble_file, common::*, runtime::execute_to_end};
+use jack_platform::{
+    assemble_file, common::*, runtime::execute_to_end, services::logger::log_result,
+};
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -7,8 +9,8 @@ fn main() {
     execute_to_end(
         instructions,
         ExecutionConfig {
-            log: true,
-            interactive: true,
+            services: vec![log_result],
+            ..ExecutionConfig::default()
         },
     );
 }

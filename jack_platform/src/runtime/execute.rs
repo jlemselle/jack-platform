@@ -1,17 +1,13 @@
 use crate::{
     common::*,
-    runtime::{
-        alu::{apply_alu, compute_alu},
-        logging::log_result,
-    },
+    runtime::alu::{apply_alu, compute_alu},
 };
 
 /***
  * The compute_to_end function is used to execute all instructions until the end of the program.
  */
 pub fn execute_to_end(instructions: Vec<Instruction>, config: ExecutionConfig) -> ExecutionContext {
-    let mut context = new_execution_context();
-    let mut input = String::new();
+    let mut context = ExecutionContext::new();
     while (context.pc as usize) < instructions.len() {
         let instruction = &instructions[context.pc as usize];
 
@@ -23,7 +19,7 @@ pub fn execute_to_end(instructions: Vec<Instruction>, config: ExecutionConfig) -
             break;
         }
 
-        execute(&mut context, &instruction, &config, &mut input);
+        execute(&mut context, &instruction, &config);
     }
     context
 }
@@ -32,7 +28,6 @@ pub fn execute(
     runtime: &mut ExecutionContext,
     instruction: &Instruction,
     config: &ExecutionConfig,
-    input: &mut String,
 ) {
     let result = compute_alu(
         instruction.op,
@@ -58,12 +53,8 @@ pub fn execute(
         println!();
     }
 
-    if config.log {
-        log_result(instruction, &runtime, &result);
-    }
-
-    if config.interactive {
-        std::io::stdin().read_line(input).unwrap();
+    for service in &config.services {
+        service(instruction, runtime, &result);
     }
 
     apply_alu(runtime, &result);

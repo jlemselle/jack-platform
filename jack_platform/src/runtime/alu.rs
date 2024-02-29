@@ -1,13 +1,5 @@
 use crate::common::*;
 
-pub struct AluResult {
-    pub out: i16,
-    pub write_a: bool,
-    pub write_m: bool,
-    pub write_d: bool,
-    pub write_pc: bool,
-}
-
 pub fn compute_alu(op: u16, a: i16, d: i16, m: i16) -> AluResult {
     if is_op_immediate(op) {
         return AluResult {
