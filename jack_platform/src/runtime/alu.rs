@@ -8,7 +8,7 @@ pub struct AluResult {
     pub write_pc: bool,
 }
 
-pub fn alu(op: u16, a: i16, d: i16, m: i16) -> AluResult {
+pub fn compute_alu(op: u16, a: i16, d: i16, m: i16) -> AluResult {
     if is_op_immediate(op) {
         return AluResult {
             out: op as i16,
@@ -21,9 +21,6 @@ pub fn alu(op: u16, a: i16, d: i16, m: i16) -> AluResult {
 
     // A or M control bit
     let is_memory = op & (1 << 12) != 0;
-
-    let x = d;
-    let y = if is_memory { m } else { a };
 
     // ALU control bits
     let zx = op & (1 << 11) != 0;
@@ -43,6 +40,51 @@ pub fn alu(op: u16, a: i16, d: i16, m: i16) -> AluResult {
     let j2 = op & (1 << 1) != 0;
     let j3 = op & (1 << 0) != 0;
 
+    let (out, zr, ng) = alu(d, if is_memory { m } else { a }, zx, zy, nx, ny, f, no);
+
+    let write_pc = (j1 && ng) || (j2 && zr) || (j3 && !ng && !zr);
+
+    AluResult {
+        out,
+        write_a,
+        write_m,
+        write_d,
+        write_pc,
+    }
+}
+
+pub fn apply_alu(runtime: &mut ExecutionContext, result: &AluResult) {
+    if result.write_pc {
+        runtime.pc = runtime.a as usize;
+    } else {
+        runtime.pc += 1;
+    }
+
+    if result.write_d {
+        runtime.d = result.out;
+    }
+
+    if result.write_m {
+        runtime.memory[runtime.a as u16 as usize] = result.out;
+    }
+
+    if result.write_a {
+        runtime.a = result.out;
+    }
+
+    runtime.cycle += 1;
+}
+
+fn alu(
+    x: i16,
+    y: i16,
+    zx: bool,
+    zy: bool,
+    nx: bool,
+    ny: bool,
+    f: bool,
+    no: bool,
+) -> (i16, bool, bool) {
     // Apply zx and zy operations
     let x = if zx { 0 } else { x };
     let y = if zy { 0 } else { y };
@@ -63,37 +105,7 @@ pub fn alu(op: u16, a: i16, d: i16, m: i16) -> AluResult {
 
     // Check zero and negative flags
     let zr = out == 0;
-    let ng = out < 0; // Most significant bit is set for negative numbers
-
-    let write_pc = (j1 && ng) || (j2 && zr) || (j3 && !ng && !zr);
-
-    AluResult {
-        out,
-        write_a,
-        write_m,
-        write_d,
-        write_pc,
-    }
-}
-
-pub fn apply_result(runtime: &mut ExecutionContext, result: &AluResult) {
-    if result.write_pc {
-        runtime.pc = runtime.a as usize;
-    } else {
-        runtime.pc += 1;
-    }
-
-    if result.write_d {
-        runtime.d = result.out;
-    }
-
-    if result.write_m {
-        runtime.memory[runtime.a as u16 as usize] = result.out;
-    }
-
-    if result.write_a {
-        runtime.a = result.out;
-    }
-
-    runtime.cycle += 1;
+    let ng = out < 0;
+    // Most significant bit is set for negative numbers
+    (out, zr, ng)
 }

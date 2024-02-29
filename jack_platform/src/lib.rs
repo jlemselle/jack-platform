@@ -4,7 +4,6 @@ pub mod assembler {
 }
 pub mod runtime {
     mod alu;
-    mod compute;
     mod execute;
     mod logging;
     pub use execute::execute_to_end;
