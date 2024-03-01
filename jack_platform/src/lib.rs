@@ -18,6 +18,9 @@ pub mod services {
     pub mod logger;
     pub mod output;
 }
+pub mod vm {
+    pub mod parser;
+}
 
 use crate::{assembler::assemble, common::*};
 
