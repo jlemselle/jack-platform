@@ -6,8 +6,12 @@ use crate::{
 /***
  * The compute_to_end function is used to execute all instructions until the end of the program.
  */
-pub fn execute_to_end(instructions: Vec<Instruction>, config: ExecutionConfig) -> ExecutionContext {
+pub fn execute_to_end(
+    instructions: Vec<Instruction>,
+    config: &mut ExecutionConfig,
+) -> ExecutionContext {
     let mut context = ExecutionContext::new();
+
     while (context.pc as usize) < instructions.len() {
         let instruction = &instructions[context.pc as usize];
 
@@ -19,7 +23,21 @@ pub fn execute_to_end(instructions: Vec<Instruction>, config: ExecutionConfig) -
             break;
         }
 
-        execute(&mut context, &instruction, &config);
+        execute(&mut context, &instruction, config);
+    }
+    context
+}
+
+pub fn execute_forever(
+    instructions: Vec<Instruction>,
+    config: &mut ExecutionConfig,
+) -> ExecutionContext {
+    let mut context = ExecutionContext::new();
+
+    while (context.pc as usize) < instructions.len() {
+        let instruction = &instructions[context.pc as usize];
+
+        execute(&mut context, &instruction, config);
     }
     context
 }
@@ -27,7 +45,7 @@ pub fn execute_to_end(instructions: Vec<Instruction>, config: ExecutionConfig) -
 pub fn execute(
     runtime: &mut ExecutionContext,
     instruction: &Instruction,
-    config: &ExecutionConfig,
+    config: &mut ExecutionConfig,
 ) {
     let result = compute_alu(
         instruction.op,
@@ -36,8 +54,8 @@ pub fn execute(
         runtime.memory[runtime.a as u16 as usize],
     );
 
-    for service in &config.services {
-        service(instruction, runtime, &result);
+    for service in &mut config.services {
+        service.tick(instruction, runtime, &result);
     }
 
     apply_alu(runtime, &result);

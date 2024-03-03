@@ -1,5 +1,13 @@
 use crate::common::*;
 
+pub struct OutputService {}
+
+impl ExecutionService for OutputService {
+    fn tick(&mut self, instruction: &Instruction, runtime: &ExecutionContext, result: &AluResult) {
+        output_result(instruction, runtime, result);
+    }
+}
+
 pub fn output_result(instruction: &Instruction, runtime: &ExecutionContext, _result: &AluResult) {
     if instruction
         .source

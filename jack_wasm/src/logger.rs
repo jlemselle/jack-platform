@@ -1,6 +1,14 @@
 use jack_platform::common::*;
 use web_sys::console::log_1;
 
+pub struct LoggerService {}
+
+impl ExecutionService for LoggerService {
+    fn tick(&mut self, instruction: &Instruction, runtime: &ExecutionContext, result: &AluResult) {
+        log_result(instruction, runtime, result);
+    }
+}
+
 pub fn log_result(instruction: &Instruction, runtime: &ExecutionContext, result: &AluResult) {
     log_1(
         &format!(

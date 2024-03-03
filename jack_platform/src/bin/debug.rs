@@ -2,7 +2,7 @@ use jack_platform::{
     assemble_file,
     common::*,
     runtime::execute_to_end,
-    services::{debugger::debug_result, logger::log_result},
+    services::{debugger::DebuggerService, logger::LoggerService},
 };
 
 fn main() {
@@ -11,8 +11,8 @@ fn main() {
     let instructions = assemble_file(file);
     execute_to_end(
         instructions,
-        ExecutionConfig {
-            services: vec![log_result, debug_result],
+        &mut ExecutionConfig {
+            services: vec![Box::new(LoggerService {}), Box::new(DebuggerService {})],
             ..ExecutionConfig::default()
         },
     );

@@ -1,4 +1,5 @@
 use jack_platform::{assembler::assemble, common::ExecutionConfig, runtime::execute_to_end};
+use logger::LoggerService;
 use wasm_bindgen::prelude::*;
 
 mod logger;
@@ -8,8 +9,8 @@ pub fn execute(source: &str) {
     let instructions = assemble("wasm-file".to_string(), source.lines().collect());
     execute_to_end(
         instructions,
-        ExecutionConfig {
-            services: vec![logger::log_result],
+        &mut ExecutionConfig {
+            services: vec![Box::new(LoggerService {})],
             ..ExecutionConfig::default()
         },
     );

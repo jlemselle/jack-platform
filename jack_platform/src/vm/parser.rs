@@ -4,12 +4,12 @@ pub fn parse_vm_command(file: &str, command: &str) -> Vec<String> {
     let parts: Vec<&str> = command.split_whitespace().collect();
 
     match parts[0] {
-        "push" => parse_push(file, parts[1], parts[2]),
+        "push" => parse_push(file, parts[1], parts[2].parse().unwrap()),
         _ => vec![],
     }
 }
 
-fn parse_push(file: &str, segment: &str, index: &str) -> Vec<String> {
+fn parse_push(file: &str, segment: &str, index: usize) -> Vec<String> {
     match segment {
         "constant" => push_constant(index),
         "local" => push_pointer("LCL", index),
@@ -17,13 +17,13 @@ fn parse_push(file: &str, segment: &str, index: &str) -> Vec<String> {
         "this" => push_pointer("THIS", index),
         "that" => push_pointer("THAT", index),
         "static" => push_static(index, file),
-        "temp" => push_offset("5", index),
-        "pointer" => push_offset("3", index),
+        "temp" => push_offset(5, index),
+        "pointer" => push_offset(3, index),
         _ => panic!("Unknown segment {}", segment),
     }
 }
 
-fn push_constant(index: &str) -> Vec<String> {
+fn push_constant(index: usize) -> Vec<String> {
     vec![
         format!("@{}", index),
         "D=A".to_string(),
@@ -35,9 +35,9 @@ fn push_constant(index: &str) -> Vec<String> {
     ]
 }
 
-fn push_offset(segment: &str, index: &str) -> Vec<String> {
+fn push_offset(segment: usize, index: usize) -> Vec<String> {
     vec![
-        format!("@{}", segment),
+        format!("@{}", segment + index),
         "D=M".to_string(),
         "@SP".to_string(),
         "A=M".to_string(),
@@ -47,8 +47,8 @@ fn push_offset(segment: &str, index: &str) -> Vec<String> {
     ]
 }
 
-fn push_pointer(segment: &str, index: &str) -> Vec<String> {
-    if index == "0" {
+fn push_pointer(segment: &str, index: usize) -> Vec<String> {
+    if index == 0 {
         return vec![
             format!("@{}", segment),
             "A=M".to_string(),
@@ -75,7 +75,7 @@ fn push_pointer(segment: &str, index: &str) -> Vec<String> {
     ]
 }
 
-fn push_static(index: &str, filename: &str) -> Vec<String> {
+fn push_static(index: usize, filename: &str) -> Vec<String> {
     vec![
         format!("@static.{}.{}", filename, index),
         "D=M".to_string(),

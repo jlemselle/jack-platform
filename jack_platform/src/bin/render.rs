@@ -1,15 +1,15 @@
 use jack_platform::{
-    assemble_file, common::*, runtime::execute_to_end, services::output::OutputService,
+    assemble_file, common::*, runtime::execute_forever, services::render::RenderService,
 };
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     let file = args.get(1).map_or("prog/hello.asm", |v| v.as_str());
     let instructions = assemble_file(file);
-    execute_to_end(
+    execute_forever(
         instructions,
         &mut ExecutionConfig {
-            services: vec![Box::new(OutputService {})],
+            services: vec![Box::new(RenderService::default())],
             ..ExecutionConfig::default()
         },
     );

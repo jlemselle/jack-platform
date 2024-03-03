@@ -1,6 +1,14 @@
 use crate::common::*;
 use colored::Colorize;
 
+pub struct LoggerService {}
+
+impl ExecutionService for LoggerService {
+    fn tick(&mut self, instruction: &Instruction, runtime: &ExecutionContext, result: &AluResult) {
+        log_result(instruction, runtime, result);
+    }
+}
+
 pub fn log_result(instruction: &Instruction, runtime: &ExecutionContext, result: &AluResult) {
     println!(
         "{} {} {}",

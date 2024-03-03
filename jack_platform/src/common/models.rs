@@ -36,10 +36,17 @@ pub struct AluResult {
     pub write_pc: bool,
 }
 
-type ExecutionService = fn(&Instruction, &ExecutionContext, &AluResult) -> ();
+pub trait ExecutionService {
+    fn tick(
+        &mut self,
+        instruction: &Instruction,
+        context: &ExecutionContext,
+        alu: &AluResult,
+    ) -> ();
+}
 
 pub struct ExecutionConfig {
-    pub services: Vec<ExecutionService>,
+    pub services: Vec<Box<dyn ExecutionService>>,
 }
 
 impl ExecutionConfig {
