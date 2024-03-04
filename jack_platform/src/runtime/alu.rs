@@ -47,7 +47,7 @@ pub fn compute_alu(op: u16, a: i16, d: i16, m: i16) -> AluResult {
 
 pub fn apply_alu(context: &mut ExecutionContext, result: &AluResult) {
     if result.write_pc {
-        context.pc = context.a as usize;
+        context.pc = context.a as u16 as usize;
     } else {
         context.pc += 1;
     }

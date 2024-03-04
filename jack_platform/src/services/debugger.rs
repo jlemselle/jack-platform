@@ -4,7 +4,12 @@ use colored::Colorize;
 pub struct DebuggerService {}
 
 impl ExecutionService for DebuggerService {
-    fn tick(&mut self, instruction: &Instruction, _context: &ExecutionContext, _result: &AluResult) -> ExecutionServiceResult {
+    fn tick(
+        &mut self,
+        instruction: &Instruction,
+        _context: &ExecutionContext,
+        _result: &AluResult,
+    ) -> ExecutionServiceResult {
         let mut input = String::new();
 
         let content = std::fs::read_to_string(&instruction.file).unwrap();

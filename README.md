@@ -17,3 +17,7 @@ Running in a terminal:
 Running in a browser through web assembly:
 
 ![Browser Output](./img/browser.png)
+
+Displaying input and output:
+
+![Browser Output](./img/output.png)

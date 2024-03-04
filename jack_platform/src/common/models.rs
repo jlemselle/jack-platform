@@ -52,7 +52,10 @@ pub struct ExecutionServiceResult {
 
 impl ExecutionServiceResult {
     pub fn new() -> Self {
-        ExecutionServiceResult { should_halt: false, key_code: -1 }
+        ExecutionServiceResult {
+            should_halt: false,
+            key_code: -1,
+        }
     }
 }
 

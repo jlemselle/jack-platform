@@ -12,8 +12,8 @@ pub fn execute_to_end(
 ) -> ExecutionContext {
     let mut context = ExecutionContext::new();
 
-    while (context.pc as usize) < instructions.len() {
-        let instruction = &instructions[context.pc as usize];
+    while context.pc < instructions.len() {
+        let instruction = &instructions[context.pc];
 
         if context.cycle > 2000000 {
             panic!("Failed to finish in 2 million cycles, exiting");
@@ -34,8 +34,8 @@ pub fn execute_forever(
 ) -> ExecutionContext {
     let mut context = ExecutionContext::new();
 
-    while (context.pc as usize) < instructions.len() {
-        let instruction = &instructions[context.pc as usize];
+    while context.pc < instructions.len() {
+        let instruction = &instructions[context.pc];
 
         execute(&mut context, &instruction, config);
     }
@@ -47,12 +47,12 @@ pub fn execute(
     instruction: &Instruction,
     config: &mut ExecutionConfig,
 ) {
-    let result = compute_alu(
-        instruction.op,
-        context.a,
-        context.d,
-        context.memory[context.a as u16 as usize],
-    );
+    let m = if context.a >= 0 {
+        context.memory[context.a as u16 as usize]
+    } else {
+        0
+    };
+    let result = compute_alu(instruction.op, context.a, context.d, m);
 
     for service in &mut config.services {
         let result = service.tick(instruction, context, &result);
