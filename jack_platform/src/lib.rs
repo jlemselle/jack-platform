@@ -18,7 +18,6 @@ pub mod services {
     pub mod debugger;
     pub mod logger;
     pub mod output;
-    pub mod render;
 }
 pub mod vm {
     pub mod parser;

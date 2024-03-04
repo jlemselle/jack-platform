@@ -1,6 +1,9 @@
-use jack_platform::{
-    assemble_file, common::*, runtime::execute_forever, services::render::RenderService,
-};
+use jack_platform::{assemble_file, common::*, runtime::execute_forever};
+use services::render::RenderService;
+
+mod services {
+    pub mod render;
+}
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();

@@ -1,4 +1,4 @@
-use crate::common::*;
+use jack_platform::common::*;
 use minifb::{Key, Window, WindowOptions};
 use std::time::Duration;
 use std::time::Instant;

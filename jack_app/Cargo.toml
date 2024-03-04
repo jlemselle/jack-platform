@@ -1,0 +1,8 @@
+[package]
+name = "jack_app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+jack_platform = { path = "../jack_platform" }
+minifb = "0.25.0"

@@ -1,8 +1,10 @@
 use jack_platform::{assembler::assemble, common::ExecutionConfig, runtime::execute_to_end};
-use logger::LoggerService;
+use services::logger::LoggerService;
 use wasm_bindgen::prelude::*;
 
-mod logger;
+mod services {
+    pub mod logger;
+}
 
 #[wasm_bindgen]
 pub fn execute(source: &str) {

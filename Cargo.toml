@@ -4,4 +4,5 @@ resolver = "2"
 members = [
     "jack_platform",
     "jack_wasm",
+    "jack_app",
 ]
