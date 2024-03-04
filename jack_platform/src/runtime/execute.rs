@@ -43,20 +43,26 @@ pub fn execute_forever(
 }
 
 pub fn execute(
-    runtime: &mut ExecutionContext,
+    context: &mut ExecutionContext,
     instruction: &Instruction,
     config: &mut ExecutionConfig,
 ) {
     let result = compute_alu(
         instruction.op,
-        runtime.a,
-        runtime.d,
-        runtime.memory[runtime.a as u16 as usize],
+        context.a,
+        context.d,
+        context.memory[context.a as u16 as usize],
     );
 
     for service in &mut config.services {
-        service.tick(instruction, runtime, &result);
+        let result = service.tick(instruction, context, &result);
+        if result.should_halt {
+            context.pc = u16::MAX as usize;
+        }
+        if result.key_code != -1 {
+            context.memory[24576] = result.key_code;
+        }
     }
 
-    apply_alu(runtime, &result);
+    apply_alu(context, &result);
 }

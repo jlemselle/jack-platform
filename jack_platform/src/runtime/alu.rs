@@ -45,26 +45,26 @@ pub fn compute_alu(op: u16, a: i16, d: i16, m: i16) -> AluResult {
     }
 }
 
-pub fn apply_alu(runtime: &mut ExecutionContext, result: &AluResult) {
+pub fn apply_alu(context: &mut ExecutionContext, result: &AluResult) {
     if result.write_pc {
-        runtime.pc = runtime.a as usize;
+        context.pc = context.a as usize;
     } else {
-        runtime.pc += 1;
+        context.pc += 1;
     }
 
     if result.write_d {
-        runtime.d = result.out;
+        context.d = result.out;
     }
 
     if result.write_m {
-        runtime.memory[runtime.a as u16 as usize] = result.out;
+        context.memory[context.a as u16 as usize] = result.out;
     }
 
     if result.write_a {
-        runtime.a = result.out;
+        context.a = result.out;
     }
 
-    runtime.cycle += 1;
+    context.cycle += 1;
 }
 
 fn alu(

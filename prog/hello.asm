@@ -1603,8 +1603,12 @@ M=D
 @R13
 A=M
 0;JMP // end: return
-(Main.main) // start: function Main.main 0
-@SP // end: function Main.main 0
+(Main.main) // start: function Main.main 1
+@SP
+A=M
+M=0
+@SP
+M=M+1 // end: function Main.main 1
 @12 // start: push constant 12
 D=A
 @SP
@@ -1670,13 +1674,13 @@ A=M
 M=D
 @SP
 M=M+1 // end: push temp 1
-@72 // start: push constant 72
+@69 // start: push constant 69
 D=A
 @SP
 A=M
 M=D
 @SP
-M=M+1 // end: push constant 72
+M=M+1 // end: push constant 69
 @Main.vm::return::1 // start: call String.appendChar 2
 D=A
 @SP
@@ -1735,13 +1739,13 @@ A=M
 M=D
 @SP
 M=M+1 // end: push temp 1
-@101 // start: push constant 101
+@110 // start: push constant 110
 D=A
 @SP
 A=M
 M=D
 @SP
-M=M+1 // end: push constant 101
+M=M+1 // end: push constant 110
 @Main.vm::return::2 // start: call String.appendChar 2
 D=A
 @SP
@@ -1800,13 +1804,13 @@ A=M
 M=D
 @SP
 M=M+1 // end: push temp 1
-@108 // start: push constant 108
+@116 // start: push constant 116
 D=A
 @SP
 A=M
 M=D
 @SP
-M=M+1 // end: push constant 108
+M=M+1 // end: push constant 116
 @Main.vm::return::3 // start: call String.appendChar 2
 D=A
 @SP
@@ -1865,13 +1869,13 @@ A=M
 M=D
 @SP
 M=M+1 // end: push temp 1
-@108 // start: push constant 108
+@101 // start: push constant 101
 D=A
 @SP
 A=M
 M=D
 @SP
-M=M+1 // end: push constant 108
+M=M+1 // end: push constant 101
 @Main.vm::return::4 // start: call String.appendChar 2
 D=A
 @SP
@@ -1930,13 +1934,13 @@ A=M
 M=D
 @SP
 M=M+1 // end: push temp 1
-@111 // start: push constant 111
+@114 // start: push constant 114
 D=A
 @SP
 A=M
 M=D
 @SP
-M=M+1 // end: push constant 111
+M=M+1 // end: push constant 114
 @Main.vm::return::5 // start: call String.appendChar 2
 D=A
 @SP
@@ -1995,13 +1999,13 @@ A=M
 M=D
 @SP
 M=M+1 // end: push temp 1
-@44 // start: push constant 44
+@32 // start: push constant 32
 D=A
 @SP
 A=M
 M=D
 @SP
-M=M+1 // end: push constant 44
+M=M+1 // end: push constant 32
 @Main.vm::return::6 // start: call String.appendChar 2
 D=A
 @SP
@@ -2060,13 +2064,13 @@ A=M
 M=D
 @SP
 M=M+1 // end: push temp 1
-@32 // start: push constant 32
+@110 // start: push constant 110
 D=A
 @SP
 A=M
 M=D
 @SP
-M=M+1 // end: push constant 32
+M=M+1 // end: push constant 110
 @Main.vm::return::7 // start: call String.appendChar 2
 D=A
 @SP
@@ -2125,13 +2129,13 @@ A=M
 M=D
 @SP
 M=M+1 // end: push temp 1
-@82 // start: push constant 82
+@97 // start: push constant 97
 D=A
 @SP
 A=M
 M=D
 @SP
-M=M+1 // end: push constant 82
+M=M+1 // end: push constant 97
 @Main.vm::return::8 // start: call String.appendChar 2
 D=A
 @SP
@@ -2190,13 +2194,13 @@ A=M
 M=D
 @SP
 M=M+1 // end: push temp 1
-@117 // start: push constant 117
+@109 // start: push constant 109
 D=A
 @SP
 A=M
 M=D
 @SP
-M=M+1 // end: push constant 117
+M=M+1 // end: push constant 109
 @Main.vm::return::9 // start: call String.appendChar 2
 D=A
 @SP
@@ -2255,13 +2259,13 @@ A=M
 M=D
 @SP
 M=M+1 // end: push temp 1
-@115 // start: push constant 115
+@101 // start: push constant 101
 D=A
 @SP
 A=M
 M=D
 @SP
-M=M+1 // end: push constant 115
+M=M+1 // end: push constant 101
 @Main.vm::return::10 // start: call String.appendChar 2
 D=A
 @SP
@@ -2320,13 +2324,13 @@ A=M
 M=D
 @SP
 M=M+1 // end: push temp 1
-@116 // start: push constant 116
+@58 // start: push constant 58
 D=A
 @SP
 A=M
 M=D
 @SP
-M=M+1 // end: push constant 116
+M=M+1 // end: push constant 58
 @Main.vm::return::11 // start: call String.appendChar 2
 D=A
 @SP
@@ -2385,13 +2389,13 @@ A=M
 M=D
 @SP
 M=M+1 // end: push temp 1
-@33 // start: push constant 33
+@32 // start: push constant 32
 D=A
 @SP
 A=M
 M=D
 @SP
-M=M+1 // end: push constant 33
+M=M+1 // end: push constant 32
 @Main.vm::return::12 // start: call String.appendChar 2
 D=A
 @SP
@@ -2450,7 +2454,579 @@ A=M
 M=D
 @SP
 M=M+1 // end: push temp 1
-@Main.vm::return::13 // start: call Output.printString 1
+@Main.vm::return::13 // start: call Keyboard.readLine 1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP
+D=M
+@LCL
+M=D
+@6
+D=D-A
+@ARG
+M=D
+@Keyboard.readLine
+0;JMP
+(Main.vm::return::13) // end: call Keyboard.readLine 1
+@SP // start: pop local 0
+AM=M-1
+D=M
+@LCL
+A=M
+M=D // end: pop local 0
+@7 // start: push constant 7
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push constant 7
+@Main.vm::return::14 // start: call String.new 1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP
+D=M
+@LCL
+M=D
+@6
+D=D-A
+@ARG
+M=D
+@String.new
+0;JMP
+(Main.vm::return::14) // end: call String.new 1
+@SP // start: pop temp 1
+AM=M-1
+D=M
+@6
+M=D // end: pop temp 1
+@6 // start: push temp 1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push temp 1
+@72 // start: push constant 72
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push constant 72
+@Main.vm::return::15 // start: call String.appendChar 2
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP
+D=M
+@LCL
+M=D
+@7
+D=D-A
+@ARG
+M=D
+@String.appendChar
+0;JMP
+(Main.vm::return::15) // end: call String.appendChar 2
+@SP // start: pop temp 0
+AM=M-1
+D=M
+@5
+M=D // end: pop temp 0
+@6 // start: push temp 1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push temp 1
+@101 // start: push constant 101
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push constant 101
+@Main.vm::return::16 // start: call String.appendChar 2
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP
+D=M
+@LCL
+M=D
+@7
+D=D-A
+@ARG
+M=D
+@String.appendChar
+0;JMP
+(Main.vm::return::16) // end: call String.appendChar 2
+@SP // start: pop temp 0
+AM=M-1
+D=M
+@5
+M=D // end: pop temp 0
+@6 // start: push temp 1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push temp 1
+@108 // start: push constant 108
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push constant 108
+@Main.vm::return::17 // start: call String.appendChar 2
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP
+D=M
+@LCL
+M=D
+@7
+D=D-A
+@ARG
+M=D
+@String.appendChar
+0;JMP
+(Main.vm::return::17) // end: call String.appendChar 2
+@SP // start: pop temp 0
+AM=M-1
+D=M
+@5
+M=D // end: pop temp 0
+@6 // start: push temp 1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push temp 1
+@108 // start: push constant 108
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push constant 108
+@Main.vm::return::18 // start: call String.appendChar 2
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP
+D=M
+@LCL
+M=D
+@7
+D=D-A
+@ARG
+M=D
+@String.appendChar
+0;JMP
+(Main.vm::return::18) // end: call String.appendChar 2
+@SP // start: pop temp 0
+AM=M-1
+D=M
+@5
+M=D // end: pop temp 0
+@6 // start: push temp 1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push temp 1
+@111 // start: push constant 111
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push constant 111
+@Main.vm::return::19 // start: call String.appendChar 2
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP
+D=M
+@LCL
+M=D
+@7
+D=D-A
+@ARG
+M=D
+@String.appendChar
+0;JMP
+(Main.vm::return::19) // end: call String.appendChar 2
+@SP // start: pop temp 0
+AM=M-1
+D=M
+@5
+M=D // end: pop temp 0
+@6 // start: push temp 1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push temp 1
+@44 // start: push constant 44
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push constant 44
+@Main.vm::return::20 // start: call String.appendChar 2
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP
+D=M
+@LCL
+M=D
+@7
+D=D-A
+@ARG
+M=D
+@String.appendChar
+0;JMP
+(Main.vm::return::20) // end: call String.appendChar 2
+@SP // start: pop temp 0
+AM=M-1
+D=M
+@5
+M=D // end: pop temp 0
+@6 // start: push temp 1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push temp 1
+@32 // start: push constant 32
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push constant 32
+@Main.vm::return::21 // start: call String.appendChar 2
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP
+D=M
+@LCL
+M=D
+@7
+D=D-A
+@ARG
+M=D
+@String.appendChar
+0;JMP
+(Main.vm::return::21) // end: call String.appendChar 2
+@SP // start: pop temp 0
+AM=M-1
+D=M
+@5
+M=D // end: pop temp 0
+@6 // start: push temp 1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push temp 1
+@Main.vm::return::22 // start: call Output.printString 1
 D=A
 @SP
 A=M
@@ -2495,8 +3071,238 @@ D=D-A
 M=D
 @Output.printString
 0;JMP
-(Main.vm::return::13) // end: call Output.printString 1
-@Main.vm::return::14 // start: call Output.println 0
+(Main.vm::return::22) // end: call Output.printString 1
+@LCL // start: push local 0 // 6:31
+A=M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push local 0 // 6:31
+@Main.vm::return::23 // start: call Output.printString 1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP
+D=M
+@LCL
+M=D
+@6
+D=D-A
+@ARG
+M=D
+@Output.printString
+0;JMP
+(Main.vm::return::23) // end: call Output.printString 1
+@1 // start: push constant 1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push constant 1
+@Main.vm::return::24 // start: call String.new 1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP
+D=M
+@LCL
+M=D
+@6
+D=D-A
+@ARG
+M=D
+@String.new
+0;JMP
+(Main.vm::return::24) // end: call String.new 1
+@SP // start: pop temp 1
+AM=M-1
+D=M
+@6
+M=D // end: pop temp 1
+@6 // start: push temp 1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push temp 1
+@33 // start: push constant 33
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push constant 33
+@Main.vm::return::25 // start: call String.appendChar 2
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP
+D=M
+@LCL
+M=D
+@7
+D=D-A
+@ARG
+M=D
+@String.appendChar
+0;JMP
+(Main.vm::return::25) // end: call String.appendChar 2
+@SP // start: pop temp 0
+AM=M-1
+D=M
+@5
+M=D // end: pop temp 0
+@6 // start: push temp 1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1 // end: push temp 1
+@Main.vm::return::26 // start: call Output.printString 1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP
+D=M
+@LCL
+M=D
+@6
+D=D-A
+@ARG
+M=D
+@Output.printString
+0;JMP
+(Main.vm::return::26) // end: call Output.printString 1
+@Main.vm::return::27 // start: call Output.println 0
 D=A
 @SP
 A=M
@@ -2541,7 +3347,7 @@ D=D-A
 M=D
 @Output.println
 0;JMP
-(Main.vm::return::14) // end: call Output.println 0
+(Main.vm::return::27) // end: call Output.println 0
 @0 // start: push constant 0
 D=A
 @SP

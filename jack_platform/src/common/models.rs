@@ -42,7 +42,18 @@ pub trait ExecutionService {
         instruction: &Instruction,
         context: &ExecutionContext,
         alu: &AluResult,
-    ) -> ();
+    ) -> ExecutionServiceResult;
+}
+
+pub struct ExecutionServiceResult {
+    pub should_halt: bool,
+    pub key_code: i16,
+}
+
+impl ExecutionServiceResult {
+    pub fn new() -> Self {
+        ExecutionServiceResult { should_halt: false, key_code: -1 }
+    }
 }
 
 pub struct ExecutionConfig {
