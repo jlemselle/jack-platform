@@ -20,4 +20,4 @@ Running in a browser through web assembly:
 
 Displaying input and output:
 
-![Browser Output](./img/output.png)
+![Browser Output](./img/render.png)
