@@ -8,6 +8,16 @@ After that, perhaps building up the Virtual Machine runtime as well as a Jack co
 
 It would also be worth exploring web assembly at some point, as it would be interesting to see how much faster a wasm runtime would be compared to JavaScript.
 
+# Progress
+
+- [x] Implement runtime
+- [x] Implement assembler
+- [x] Web assembly package
+- [x] Render output to window
+- [x] Send keyboard input
+- [ ] IR parser
+- [ ] Jack compiler
+
 # Example output
 
 Running in a terminal:
