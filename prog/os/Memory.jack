@@ -1,0 +1,121 @@
+/**
+ * This library provides two services: direct access to the computer's main
+ * memory (RAM), and allocation and recycling of memory blocks. The Hack RAM
+ * consists of 32,768 words, each holding a 16-bit binary number.
+ */ 
+class Memory {
+    static Array ram, heap;
+    static int listEnd, headPtr;
+
+    /** Initializes the class. */
+    function void init() {
+        let ram = 0;
+        let heap = 2048;
+        let headPtr = heap;
+        let listEnd = -1;
+        let heap[0] = listEnd;
+        let heap[1] = 14334;
+    }
+
+    /** Returns the RAM value at the given address. */
+    function int peek(int address) {
+        return ram[address];
+    }
+
+    /** Sets the RAM value at the given address to the given value. */
+    function int poke(int address, int value) {
+        let ram[address] = value;
+        return value;
+    }
+
+    function void fill(int address, int size, int value) {
+        var int i;
+        let i = 0;
+        while (i < size) {
+            let ram[address + i] = value;
+            let i = i + 1;
+        }
+        return value;
+    }
+
+    /** Finds an available RAM block of the given size and returns
+     *  a reference to its base address. */
+    function int alloc(int size) {
+        var int prevPtr, ptr, segmentSize, baseAddr, newSize, newNext, newPtr;
+
+        let prevPtr = listEnd;
+        let ptr = headPtr;
+        let segmentSize = size + 2;
+        while (~(ptr = listEnd) & (ram[ptr + 1] < segmentSize))
+        {
+            let prevPtr = ptr;
+            let ptr = ram[ptr];
+        }
+
+        if (ptr = listEnd)
+        {
+            return -1; // TODO error
+        }
+
+        let baseAddr = ptr + 2;
+        let newSize = ram[ptr + 1] - segmentSize;
+        let newNext = ram[ptr];
+        let newPtr = ptr + segmentSize;
+
+        if (ptr = headPtr)
+        {
+            let headPtr = newPtr;
+        }
+
+        if (~(prevPtr = listEnd))
+        {
+            let ram[prevPtr] = newPtr;
+        }
+
+        let ram[newPtr] = newNext;
+        let ram[newPtr + 1] = newSize;
+
+        return baseAddr;
+    }
+
+    /** De-allocates the given object (cast as an array) by making
+     *  it available for future allocations. */
+    function void deAlloc(Array baseAddr) {
+        var int prevPtr, ptr, currentPtr, nextPtr, size;
+
+        // Find the position to insert the deallocated block in the free list
+        let prevPtr = listEnd;
+        let ptr = headPtr;
+        while (~(ptr = listEnd) & (ptr < baseAddr))
+        {
+            let prevPtr = ptr;
+            let ptr = ram[ptr];
+        }
+
+        // Insert the deallocated block into the free list
+        let currentPtr = baseAddr - 2;
+        let size = ram[currentPtr + 1];
+
+        if (prevPtr = listEnd)
+        {
+            let headPtr = currentPtr;
+        }
+        else
+        {
+            let ram[prevPtr] = currentPtr;
+        }
+
+        let ram[currentPtr] = ptr;
+
+        // Merge adjacent free blocks
+        let nextPtr = currentPtr + size;
+        if (~(ptr = listEnd) & (nextPtr = ptr))
+        {
+            let size = size + ram[ptr + 1];
+            let ram[currentPtr] = ram[ptr];
+        }
+
+        // Update the size of the deallocated block
+        let ram[currentPtr + 1] = size;
+    }
+}
