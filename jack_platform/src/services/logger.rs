@@ -3,6 +3,12 @@ use colored::Colorize;
 
 pub struct LoggerService {}
 
+impl LoggerService {
+    pub fn default() -> LoggerService {
+        LoggerService {}
+    }
+}
+
 impl ExecutionService for LoggerService {
     fn tick(&mut self, instruction: &Instruction, context: &ExecutionContext, result: &AluResult) -> ExecutionServiceResult {
         println!(
@@ -27,11 +33,11 @@ impl ExecutionService for LoggerService {
         let m = if result.write_m {
             format!("*M[{}]: {}*", context.a, result.out).green()
         } else {
-            format!(
-                "M[{}]: {}",
-                context.a, context.memory[context.a as u16 as usize]
-            )
-            .white()
+            if context.a as usize >= context.memory.len() {
+                format!("M[{}]: {}", context.a, 0).white()
+            } else {
+                format!("M[{}]: {}", context.a, context.memory[context.a as u16 as usize]).white()
+            }
         };
     
         let pc = if result.write_pc {

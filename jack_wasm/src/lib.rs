@@ -12,7 +12,7 @@ pub fn execute(source: &str) {
     execute_to_end(
         instructions,
         &mut ExecutionConfig {
-            services: vec![Box::new(LoggerService {})],
+            services: vec![Box::new(LoggerService::default())],
             ..ExecutionConfig::default()
         },
     );

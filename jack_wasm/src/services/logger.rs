@@ -3,6 +3,12 @@ use web_sys::console::log_1;
 
 pub struct LoggerService {}
 
+impl LoggerService {
+    pub fn default() -> LoggerService {
+        LoggerService {}
+    }
+}
+
 impl ExecutionService for LoggerService {
     fn tick(
         &mut self,

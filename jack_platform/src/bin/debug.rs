@@ -12,7 +12,7 @@ fn main() {
     execute_to_end(
         instructions,
         &mut ExecutionConfig {
-            services: vec![Box::new(LoggerService {}), Box::new(DebuggerService {})],
+            services: vec![Box::new(LoggerService::default()), Box::new(DebuggerService::default())],
             ..ExecutionConfig::default()
         },
     );

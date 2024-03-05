@@ -2,6 +2,12 @@ use crate::common::*;
 
 pub struct OutputService {}
 
+impl OutputService {
+    pub fn default() -> OutputService {
+        OutputService {}
+    }
+}
+
 impl ExecutionService for OutputService {
     fn tick(&mut self, instruction: &Instruction, context: &ExecutionContext, _result: &AluResult) -> ExecutionServiceResult {
         if instruction

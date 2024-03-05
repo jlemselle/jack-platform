@@ -3,6 +3,12 @@ use colored::Colorize;
 
 pub struct DebuggerService {}
 
+impl DebuggerService {
+    pub fn default() -> DebuggerService {
+        DebuggerService {}
+    }
+}
+
 impl ExecutionService for DebuggerService {
     fn tick(
         &mut self,

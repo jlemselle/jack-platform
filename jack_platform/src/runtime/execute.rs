@@ -15,8 +15,8 @@ pub fn execute_to_end(
     while context.pc < instructions.len() {
         let instruction = &instructions[context.pc];
 
-        if context.cycle > 2000000 {
-            panic!("Failed to finish in 2 million cycles, exiting");
+        if context.cycle > 5000000 {
+            panic!("Failed to finish in 5 million cycles, exiting");
         }
 
         if instruction.str == "0;JMP" && context.a as usize == context.pc - 1 {

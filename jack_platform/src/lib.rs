@@ -1,5 +1,6 @@
 pub mod assembler {
     mod assemble;
+    //mod symbol_resolver;
     pub use assemble::assemble;
 }
 pub mod runtime {
@@ -18,6 +19,7 @@ pub mod services {
     pub mod debugger;
     pub mod logger;
     pub mod output;
+    pub mod file_logger;
 }
 pub mod vm {
     pub mod parser;

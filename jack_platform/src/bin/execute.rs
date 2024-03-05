@@ -1,5 +1,5 @@
 use jack_platform::{
-    assemble_file, common::*, runtime::execute_to_end, services::output::OutputService,
+    assemble_file, common::*, runtime::execute_to_end, services::output::OutputService, services::file_logger::FileLoggerService,
 };
 
 fn main() {
@@ -9,7 +9,7 @@ fn main() {
     execute_to_end(
         instructions,
         &mut ExecutionConfig {
-            services: vec![Box::new(OutputService {})],
+            services: vec![Box::new(OutputService::default()), Box::new(FileLoggerService::default())],
             ..ExecutionConfig::default()
         },
     );

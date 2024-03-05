@@ -5,11 +5,16 @@ use crate::common::*;
 
 pub fn assemble(file: String, instructions: Vec<&str>) -> Vec<Instruction> {
     let labels = collect_labels(&instructions);
-    instructions
+    let result: Vec<Instruction> = instructions
         .iter()
         .enumerate()
         .filter_map(|(index, &source)| assemble_line(&file, index + 1, source, &labels))
-        .collect()
+        .flatten()
+        .collect();
+
+    println!("Assembled {} instructions ({}% of ROM)", result.len(), (result.len() as f32 / u16::MAX as f32) * 100.0);
+
+    result
 }
 
 fn collect_labels(instructions: &Vec<&str>) -> HashMap<String, u16> {
@@ -52,6 +57,9 @@ fn collect_labels(instructions: &Vec<&str>) -> HashMap<String, u16> {
                 panic!("Duplicate label: {}", label);
             }
             symbol_table.insert(label.to_string(), address);
+        }
+        else if trimmed.starts_with('@') && trimmed[1..].chars().next().unwrap().is_alphabetic() {
+            address += 2;
         } else {
             address += 1;
         }
@@ -95,7 +103,7 @@ fn assemble_line(
     line: usize,
     source: &str,
     labels: &HashMap<String, u16>,
-) -> Option<Instruction> {
+) -> Option<Vec<Instruction>> {
     let trimmed = trim_comment(source).trim();
     if trimmed.is_empty() {
         return None;
@@ -103,20 +111,20 @@ fn assemble_line(
     if trimmed.starts_with('(') {
         return None;
     }
-    Some(Instruction {
-        op: assemble_instruction(trimmed, labels),
+    Some(assemble_instruction(trimmed, labels).iter().map(|op| Instruction {
+        op: *op,
         str: trimmed.to_string(),
         source: source.to_string(),
         file: file.to_string(),
         line: line,
-    })
+    }).collect())
 }
 
-fn assemble_instruction(instruction: &str, labels: &HashMap<String, u16>) -> u16 {
+fn assemble_instruction(instruction: &str, labels: &HashMap<String, u16>) -> Vec<u16> {
     if instruction.starts_with('@') {
         assemble_immediate(instruction, labels)
     } else {
-        assemble_computation(instruction)
+        vec![assemble_computation(instruction)]
     }
 }
 
@@ -127,17 +135,23 @@ fn trim_comment(instruction: &str) -> &str {
     }
 }
 
-fn assemble_immediate(instruction: &str, labels: &HashMap<String, u16>) -> u16 {
+fn assemble_immediate(instruction: &str, labels: &HashMap<String, u16>) -> Vec<u16> {
     if labels.contains_key(&instruction[1..]) {
-        return *labels.get(&instruction[1..]).unwrap();
+        let label_value = *labels.get(&instruction[1..]).unwrap();
+        
+        if !is_op_immediate(label_value) {
+            return vec![!label_value, 0b1110_1100_0110_0000]
+        }
+        return vec![0b1110_1010_0000_0000, label_value]
     }
 
     match instruction[1..].parse::<u16>() {
         Ok(value) => {
             if !is_op_immediate(value) {
                 panic!("Immediate value must be between 0-32767: {}", instruction);
+            } else {
+                vec![value]
             }
-            value
         }
         Err(_) => {
             panic!("Invalid immediate value: {}", instruction);
@@ -234,19 +248,19 @@ mod tests {
     fn test_assemble_immediate() {
         assert_eq!(
             assemble_instruction("@0", &HashMap::new()),
-            0b0000_0000_0000_0000
+            vec![0b0000_0000_0000_0000]
         );
         assert_eq!(
             assemble_instruction("@1", &HashMap::new()),
-            0b0000_0000_0000_0001
+            vec![0b0000_0000_0000_0001]
         );
         assert_eq!(
             assemble_instruction("@2", &HashMap::new()),
-            0b0000_0000_0000_0010
+            vec![0b0000_0000_0000_0010]
         );
         assert_eq!(
             assemble_instruction("@32767", &HashMap::new()),
-            0b0111_1111_1111_1111
+            vec![0b0111_1111_1111_1111]
         );
     }
 
@@ -254,23 +268,23 @@ mod tests {
     fn test_assemble_computation() {
         assert_eq!(
             assemble_instruction("D=A", &HashMap::new()),
-            0b1110_1100_0001_0000
+            vec![0b1110_1100_0001_0000]
         );
         assert_eq!(
             assemble_instruction("D=D+A", &HashMap::new()),
-            0b1110_0000_1001_0000
+            vec![0b1110_0000_1001_0000]
         );
         assert_eq!(
             assemble_instruction("M=D", &HashMap::new()),
-            0b1110_0011_0000_1000
+            vec![0b1110_0011_0000_1000]
         );
         assert_eq!(
             assemble_instruction("M=!D", &HashMap::new()),
-            0b1110_0111_0000_1000
+            vec![0b1110_0111_0000_1000]
         );
         assert_eq!(
             assemble_instruction("0;JMP", &HashMap::new()),
-            0b1110_1010_0000_0111
+            vec![0b1110_1010_0000_0111]
         );
     }
 
